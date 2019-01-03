@@ -1,0 +1,1 @@
+The LazyMatrix class extends base::matrix by providing slots that define a reference to a data matrix stored in a package or file. Methods are provided for most base functions to allow LazyMatrix objects to be used in place of regular matrices; the file or package data is loaded on-the-fly when needed.
