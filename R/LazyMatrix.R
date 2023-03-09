@@ -84,7 +84,7 @@ validLazyMatrix = function(object) {
     if(!is.null(object@package)) {
       # Load from package
       d = try(do.call("::", list(object@package, object@name)))
-      if(class(d) == "try-error") return(FALSE) else object@.Data = d
+      if("try-error" %in% class(d)) return(FALSE) else object@.Data = d
     } else if(!is.null(object@file)) {
       # Load from file
       object@.Data = try(local(get(load(file.path(object@file)))))
@@ -95,7 +95,7 @@ validLazyMatrix = function(object) {
 
   # Check what was loaded
   test = class(object@.Data)
-  if(!(test == "matrix")) return("Loaded data must be a matrix.")
+  if(!("matrix" %in% test)) return("Loaded data must be a matrix.")
 
   TRUE
 }
@@ -147,7 +147,6 @@ setMethod(f = "Ops", signature = c(e1 = "LazyMatrix", e2 = "numeric"),
 
 setMethod(f = "Ops", signature = c(e1 = "numeric", e2 = "LazyMatrix"),
           function(e1, e2) {
-            message("Testing...")
             e1.i = instantiate(e1)
             e2.i = instantiate(e2)
             callGeneric(e1.i, e2.i)
@@ -162,21 +161,18 @@ setMethod(f = "Ops", signature = c(e1 = "LazyMatrix", e2 = "LazyMatrix"),
 
 setMethod(f = "Math", signature = "LazyMatrix",
           function(x) {
-            message("Testing...")
             x.i = instantiate(x)
             callGeneric(x.i)
           })
 
 setMethod(f = "Math2", signature = c(x = "LazyMatrix"),
           function(x, digits) {
-            message("Testing...")
             x.i = instantiate(x)
             callGeneric(x.i, digits)
           })
 
 setMethod(f = "Summary", signature = "LazyMatrix",
           function(x, ..., na.rm = FALSE) {
-            message("Testing...")
             x.i = instantiate(x)
             callGeneric(x.i, ..., na.rm)
           })
